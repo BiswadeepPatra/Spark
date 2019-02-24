@@ -1,0 +1,141 @@
+Flume is distributed, reliable and avaliable service for efficiently 
+collecting, aggregating and moving large ammount of streaming event data.
+
+We need to analysis the server log.
+
+https://www.eduonix.com/blog/bigdata-and-hadoop/flume-installation-and-streaming-twitter-data-using-flume/
+
+============================================================================================================================================================
+
+Go to download folder :
+
+cd /home/training/downloads
+
+wget http://apache.mirrors.hoobly.com/flume/1.4.0/apache-flume-1.4.0-bin.tar.gz
+
+sudo mkdir /usr/lib/flume-ng
+
+sudo cp -r apache-flume-1.4.0-bin.tar.gz  /usr/lib/flume-ng/
+
+Then go to cd /usr/lib/flume-ng/
+
+ls -ltr
+
+sudo tar -xvf apache-flume-1.4.0-bin.tar.gz
+
+==============================================================================
+
+We need to download flume-source-1.0-SNAPSHOT.jar file from internet.
+
+Then go to downloads folder :
+
+cd /home/training/downloads
+
+Then :
+
+sudo mv /home/training/download/flume-source-1.0-SNAPSHOT.jar /usr/lib/flume-ng/apache-flume-1.4.0-bin/lib
+
+Then we need to go to /usr/lib/flume-ng/apache-flume-1.4.0-bin/conf
+
+ls -lrt
+
+sudo gedit flume-env.sh
+
+FLUME_CLASSPATH= '/usr/lib/flume-ng/lib/flume-source-1.0-SNAPSHOT.jar'
+
+then sudo gedit conf/flume.conf
+
+Need to execute below command from /usr/lib/flume-ng/apache-flume-1.4.0-bin/bin folder :
+
+./flume-ng agent -n TwitterAgent -c conf -f /usr/lib/flume-ng/apache-flume-1.4.0-bin/conf/twitter_flume_1.conf.txt
+
+============================================================================================================================================================
+
+./flume-ng agent -n SeqGenAgent -c conf -f /usr/lib/flume-ng/apache-flume-1.4.0-bin/conf/seqgen_flume.conf
+
+============================================================================================================================================================
+
+./flume-ng agent -n NetcatAgent -c conf -f /usr/lib/flume-ng/conf/netcat_flume_5.conf.txt -Dflume.root.logger=INFO,console
+
+telnet localhost 56565
+
+now you can generate events and log them in to the consle
+
+============================================================================================================================================================
+
+./flume-ng agent -n NetcatAgent -c conf -f /usr/lib/flume-ng/conf/hdfs_netcat_flume_6.conf.txt -Dflume.root.logger=INFO,console
+
+telnet localhost 56565
+
+now you can generate events and log them in to the consle
+
+============================================================================================================================================================
+
+Create table flumeEmployee ( name string, salary int, sex string, age int )
+row format delimited 
+fields terminated by ',';
+
+./flume-ng agent -n NetcatAgent -c conf -f /usr/lib/flume-ng/conf/hive_netcat_log_7.conf.txt -Dflume.root.logger=INFO,console
+
+telnet localhost 56565
+
+Alok,10000,male,29
+Jatin,15000,male,32
+Yogesh,12000,male,39
+Ragini,13000,female,34
+Jyotsana,12990,female,32
+Valmiki,123000,male,28
+
+============================================================================================================================================================
+cd /vat/log
+sudo tail -F messages 
+sudo service mysqld restart
+sudo service ntpd restart
+
+tail -F /opt/gen_logs/logs/access.log
+
+start_logs
+
+./flume-ng agent -n agent1 -c conf -f /usr/lib/flume-ng/conf/access_log_3.conf.txt -Dflume.root.logger=INFO,console
+
+./flume-ng agent -n agent1 -c conf -f /usr/lib/flume-ng/conf/flume_genderandageaadhaar.conf -Dflume.root.logger=INFO,console
+
+./flume-ng agent -n agent1 -c conf -f /usr/lib/flume-ng/conf/flume_geograpyaadhaar.conf -Dflume.root.logger=INFO,console
+
+stop_logs
+
+============================================================================================================================================================
+
+./flume-ng agent -n a1 -c conf -f /usr/lib/flume-ng/apache-flume-1.4.0-bin/conf/syslog_flume.conf
+
+sudo vi /etc/rsyslog.conf
+
+*.* @@10.10.100.1:7077
+
+service rsyslog restart
+
+logger -t test 'Testing Flume with Syslog!'
+
+
+============================================================================================================================================================
+
+$ flume-ng agent --conf $FLUME_CONF_DIR --conf-file $FLUME_CONF_DIR/avro_flume.conf --name Agent1 -Dflume.root.logger=INFO,console
+
+./flume-ng agent -n Agent3 -c conf -f /usr/lib/flume-ng/conf/avro_flume.txt
+
+echo 'Hello !!! This is a test file created for Avro Client Testing !!! ' > AvroClientInput.txt
+
+$ flume-ng avro-client -H localhost -p 44444 -F /home/siva/AvroClientInput.txt
+
+flume-ng avro-client -H localhost -p 11111 -F /home/cloudera/AvroClientInput.txt
+
+/home/cloudera
+
+
+===================================================================================================
+
+http://hadooptutorial.info/flume-avro-client-collecting-remote-file-local-file/
+
+https://github.com/brockn/avro-flume-hive-example
+
+http://cuddletech.com/?p=795
