@@ -1,5 +1,0 @@
-http://stdatalabs.blogspot.in/2016/09/spark-streaming-part-2-real-time_10.html
-
-http://stdatalabs.blogspot.in/2016/11/spark-streaming-flume-example-pull-approach.html
-http://www.treselle.com/blog/flume-with-kafka-integration/
-https://spark.apache.org/docs/1.6.3/streaming-kafka-integration.html
