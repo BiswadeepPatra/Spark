@@ -1,0 +1,57 @@
+
+****************************************************
+HiveConnection
+******************
+
+import org.apache.spark.SparkContext
+
+object HiveConn {
+  def main(args: Array[String]): Unit = {
+val sc = new SparkContext("yarn-client", "Spark-sqltohive")
+val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)
+
+hiveContext.sql("CREATE TABLE db.tablename(id INT, name STRING, age INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ','")
+
+hiveContext.sql("LOAD DATA LOCAL INPATH '/HDFSPATH/FileName' INTO TABLE DB.employee_TEST123")
+
+val result = hiveContext.sql("QUERY")
+result.show()
+}}
+
+****************************************************
+MysqlConnection
+********************
+
+import org.apache.spark.SparkContext
+import org.apache.hadoop.hive.ql.exec.spark.session.SparkSession
+import org.apache.spark._
+import org.apache.spark.SparkContext._
+import org.apache.spark.sql._
+import org.apache.log4j._
+import org.apache.spark.sql.SQLContext
+
+object MysqlConn{
+def main(args: Array[String]): Unit = {
+val sc = new SparkContext("local[*]", "Spark-sqltoMysql")
+val sqlcontext = new org.apache.spark.sql.SQLContext(sc)
+val dataframe_mysql = sqlcontext.read.format("jdbc").
+option("url", "jdbc:mysql://URl:PORT/DB").
+option("driver","com.mysql.jdbc.Driver").
+option("dbtable","TABLENAME").option("user","USERNAME").option("password", "PASSWORD").load()
+
+//dataframe_mysql.take(10).foreach(println)
+dataframe_mysql.registerTempTable("TABLENAME")
+val allrecords = sqlcontext.sql("QUERY")
+allrecords.show()
+
+}
+}
+
+***************************************************
+Json
+****
+val json1df = sqlContext.read.json("/HDFSPATH/FileName").select("id","name","age")
+
+***
+ParQ
+**val ParQ1df = sqlContext.read.parquet("/HDFSPATH/FileName")
